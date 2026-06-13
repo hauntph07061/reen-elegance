@@ -1,0 +1,85 @@
+# generated: 2026-06-09
+# last_updated: 2026-06-09
+# project: Green Elegance
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-06-09
+last_updated: 2026-06-09
+project: Green Elegance
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: done
+  1-1-project-baseline-setup: done
+  1-2-storefront-layout-mega-menu: done
+  1-3-usp-bar-floating-cta: done
+  epic-1-retrospective: done
+  epic-2: in-progress
+  2-1-product-list-api-sidebar-filter: done
+  2-2-smart-autocomplete-search-bar: review
+  2-3-product-details-zoom-promotion-box: review
+  2-4-product-details-tabs-ctas: review
+  epic-2-retrospective: optional
+  epic-3: done
+  3-1-cart-drawer-ui-state-management: done
+  3-2-checkout-details-delivery-scheduling: done
+  3-3-vietqr-momo-payment-integration-with-proof-upload: done
+  epic-3-retrospective: optional
+  epic-4: done
+  4-1-blog-list-detail-view: done
+  4-2-contact-map-legal-pages: done
+  4-3-seo-metadata-json-ld: done
+  epic-4-retrospective: done
+  epic-5: done
+  5-1-category-tree-crud-drag-and-drop-editor: done
+  5-2-advanced-product-crud-backend: done
+  5-3-advanced-product-crud-frontend-image-drag-and-drop: done
+  epic-5-retrospective: optional
+  epic-6: done
+  6-1-kpis-revenue-chart: done
+  6-2-order-management-excel-export: done
+  6-3-order-timeline-shipper-workspace: done
+  epic-6-retrospective: optional
+  epic-7: done
+  7-1-admin-authentication-jwt-spring-security: done
+  7-2-staff-crud-rbac: done
+  7-3-global-site-settings-shipping-rules: done
+  epic-7-retrospective: optional
+  epic-8: done
+  8-1-loyalty-points-ledger-backend: done
+  8-2-customer-loyalty-dashboard-storefront: done
+  8-3-admin-loyalty-configuration-cms: done
+  epic-8-retrospective: optional

@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Bitter", serif;
+}
+
+/* ============================================================
+   GREEN ELEGANCE — Bean Spa Inspired Theme
+   Primary:  #1b6060 (Deep Teal)
+   Accent:   #f0a793 (Peach Rose)
+   Bg:       #ffffff / #f6f3ed (Cream)
+   Border:   #e8e0d5
+   ============================================================ */
+
+@layer base {
+  body {
+    background-color: #ffffff;
+    font-family: var(--font-sans);
+    color: #2c2c2c;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: #2c2c2c;
+  }
+}
+
+/* Smooth scrollbar */
+html { scroll-behavior: smooth; }
+
+/* Selection */
+::selection {
+  background-color: #1b6060;
+  color: #ffffff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@utility animate-fade-in {
+  animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility animate-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Pill button base */
+.btn-primary {
+  background-color: #1b6060;
+  color: #ffffff;
+  border-radius: 40px;
+  padding: 12px 28px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: #144848;
+  box-shadow: 0 8px 24px rgba(27, 96, 96, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #1b6060;
+  border: 1.5px solid #1b6060;
+  border-radius: 40px;
+  padding: 11px 28px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  background-color: #1b6060;
+  color: #ffffff;
+}
+
+/* Card base */
+.card-spa {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e8e0d5;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-spa:hover {
+  box-shadow: 0 12px 40px rgba(27, 96, 96, 0.12);
+  transform: translateY(-4px);
+}
+
+/* Restore styles inside Jodit Editor (Tailwind preflight overrides them) */
+.jodit-wysiwyg h1 { font-size: 2em; font-weight: bold; margin-bottom: 0.5em; margin-top: 0.5em; font-family: var(--font-serif); color: #1b6060; }
+.jodit-wysiwyg h2 { font-size: 1.5em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; font-family: var(--font-serif); color: #1b6060; }
+.jodit-wysiwyg h3 { font-size: 1.25em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; font-family: var(--font-serif); color: #1b6060; }
+.jodit-wysiwyg h4 { font-size: 1.1em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; color: #2c2c2c; }
+.jodit-wysiwyg ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
+.jodit-wysiwyg ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 1em; }
+.jodit-wysiwyg p { margin-bottom: 1em; line-height: 1.6; color: #5a5a5a; }
+.jodit-wysiwyg strong, .jodit-wysiwyg b { font-weight: bold; color: #2c2c2c; }

@@ -1,0 +1,11 @@
+CREATE TABLE contacts (
+    id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50),
+    subject VARCHAR(255),
+    message TEXT NOT NULL,
+    status VARCHAR(50) DEFAULT 'PENDING',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
