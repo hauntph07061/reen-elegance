@@ -14,9 +14,7 @@ function Header() {
   const navigate = useNavigate()
 
   React.useEffect(() => {
-    if (customerToken) {
-      fetchFavorites();
-    }
+    fetchFavorites();
   }, [customerToken]);
 
   const handleSearchSubmit = (e) => {

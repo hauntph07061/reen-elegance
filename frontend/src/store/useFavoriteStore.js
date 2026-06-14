@@ -7,10 +7,49 @@ export const useFavoriteStore = create((set, get) => ({
 
   fetchFavorites: async () => {
     const { customerToken } = useCustomerAuthStore.getState();
-    if (!customerToken) return;
+    
+    if (!customerToken) {
+      // Guest/Anonymous user - read from localStorage
+      try {
+        const localFavs = localStorage.getItem('ge_favorites');
+        if (localFavs) {
+          set({ favoriteIds: JSON.parse(localFavs) });
+        } else {
+          set({ favoriteIds: [] });
+        }
+      } catch (e) {
+        console.error('Failed to parse local favorites', e);
+        set({ favoriteIds: [] });
+      }
+      return;
+    }
 
     set({ isLoading: true });
     try {
+      // Sync guest favorites from localStorage to database on login
+      const localFavsStr = localStorage.getItem('ge_favorites');
+      if (localFavsStr) {
+        try {
+          const localFavIds = JSON.parse(localFavsStr);
+          if (Array.isArray(localFavIds) && localFavIds.length > 0) {
+            // Send requests to add local favorites to database
+            await Promise.allSettled(
+              localFavIds.map(id =>
+                fetch(`${import.meta.env.VITE_API_URL}/v1/favorites/${id}`, {
+                  method: 'POST',
+                  headers: { 'Authorization': `Bearer ${customerToken}` }
+                })
+              )
+            );
+            // Clear local cache after successful sync
+            localStorage.removeItem('ge_favorites');
+          }
+        } catch (e) {
+          console.error('Failed to sync local favorites', e);
+        }
+      }
+
+      // Fetch official favorite IDs from server
       const res = await fetch(`${import.meta.env.VITE_API_URL}/v1/favorites/ids`, {
         headers: { 'Authorization': `Bearer ${customerToken}` }
       });
@@ -27,14 +66,21 @@ export const useFavoriteStore = create((set, get) => ({
 
   toggleFavorite: async (productId) => {
     const { customerToken } = useCustomerAuthStore.getState();
-    if (!customerToken) {
-      // Prompt user to login if needed. We return false so caller can handle it
-      return false;
-    }
-
     const { favoriteIds } = get();
     const isFav = favoriteIds.includes(productId);
 
+    if (!customerToken) {
+      // Guest user logic - save to localStorage
+      const updatedIds = isFav
+        ? favoriteIds.filter(id => id !== productId)
+        : [...favoriteIds, productId];
+      
+      set({ favoriteIds: updatedIds });
+      localStorage.setItem('ge_favorites', JSON.stringify(updatedIds));
+      return true;
+    }
+
+    // Authenticated user logic
     // Optimistic UI update
     set({
       favoriteIds: isFav 
@@ -49,7 +95,6 @@ export const useFavoriteStore = create((set, get) => ({
       });
 
       if (!res.ok) {
-        // Revert on failure
         throw new Error('Failed to toggle favorite');
       }
       return true;
@@ -61,5 +106,8 @@ export const useFavoriteStore = create((set, get) => ({
     }
   },
 
-  clearFavorites: () => set({ favoriteIds: [] })
+  clearFavorites: () => {
+    localStorage.removeItem('ge_favorites');
+    set({ favoriteIds: [] });
+  }
 }));
