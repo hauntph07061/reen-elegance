@@ -23,11 +23,11 @@ export default function BlogList() {
       <Header />
 
       {/* Page Banner */}
-      <div className="bg-[#f6f3ed] border-b border-[#e8e0d5] pt-32 pb-14 text-center">
-        <div className="max-w-3xl mx-auto px-6">
+      <div className="bg-[#f6f3ed] border-b border-[#e8e0d5] pt-24 md:pt-32 pb-8 md:pb-14 text-center px-4">
+        <div className="max-w-3xl mx-auto">
           <span className="text-xs font-semibold tracking-widest text-[#1b6060] uppercase">Kiến thức & Cảm hứng</span>
-          <h1 className="font-serif text-4xl font-bold text-[#2c2c2c] mt-2 mb-4">Tin Tức & Bài Viết</h1>
-          <p className="text-[#5a5a5a] leading-relaxed">
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#2c2c2c] mt-2 mb-4">Tin Tức & Bài Viết</h1>
+          <p className="text-[#5a5a5a] text-xs sm:text-sm leading-relaxed">
             Khám phá xu hướng cắm hoa nghệ thuật, bí quyết chăm sóc cây cảnh và những câu chuyện đằng sau mỗi đóa hoa Green Elegance.
           </p>
         </div>

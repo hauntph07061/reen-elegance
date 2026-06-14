@@ -100,17 +100,17 @@ export default function Contact() {
         <Header />
 
         {/* Page Banner */}
-        <div className="pt-40 pb-16 text-center">
-          <div className="max-w-6xl mx-auto px-6">
+        <div className="pt-24 md:pt-40 pb-8 md:pb-16 text-center px-4">
+          <div className="max-w-6xl mx-auto">
             <span className="text-[10px] font-bold tracking-widest text-[#5a5a5a] uppercase">Hệ Thống Cửa Hàng</span>
-            <h1 className="font-serif text-5xl font-normal text-[#222222] mt-4 mb-4 uppercase tracking-wider">Liên Hệ</h1>
-            <p className="text-[#5a5a5a] max-w-xl mx-auto text-sm">
+            <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#222222] mt-4 mb-4 uppercase tracking-wider">Liên Hệ</h1>
+            <p className="text-[#5a5a5a] max-w-xl mx-auto text-xs sm:text-sm">
               Chúng tôi luôn sẵn sàng hỗ trợ bạn tìm kiếm mảng xanh phù hợp nhất cho không gian của mình.
             </p>
           </div>
         </div>
 
-        <main className="flex-1 max-w-6xl mx-auto px-6 py-12 w-full">
+        <main className="flex-1 max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-12 w-full">
           {/* Contact Info Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
             {[
@@ -119,11 +119,11 @@ export default function Contact() {
               { icon: '💬', label: 'Tư vấn', value: settings.store_phone, sub: 'Hỗ trợ qua Zalo' },
               { icon: '📍', label: 'Văn phòng chính', value: settings.store_address, sub: 'Việt Nam' },
             ].map((item) => (
-              <div key={item.label} className="bg-white rounded-2xl p-6 shadow-sm border border-transparent hover:border-gray-200 text-center transition-all duration-300">
-                <div className="text-2xl mb-4">{item.icon}</div>
-                <div className="text-[10px] font-bold text-[#5a5a5a] uppercase tracking-widest mb-2">{item.label}</div>
-                <div className="font-serif text-[#222222] text-sm">{item.value}</div>
-                <div className="text-xs text-[#888888] mt-2">{item.sub}</div>
+              <div key={item.label} className="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-transparent hover:border-gray-200 text-center transition-all duration-300">
+                <div className="text-2xl mb-2 md:mb-4">{item.icon}</div>
+                <div className="text-[9px] md:text-[10px] font-bold text-[#5a5a5a] uppercase tracking-widest mb-1 md:mb-2">{item.label}</div>
+                <div className="font-serif text-[#222222] text-xs md:text-sm break-all">{item.value}</div>
+                <div className="text-[10px] md:text-xs text-[#888888] mt-1 md:mt-2">{item.sub}</div>
               </div>
             ))}
           </div>
@@ -132,8 +132,8 @@ export default function Contact() {
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm mb-16">
             <div className="flex flex-col lg:flex-row">
               {/* Left: Shop List */}
-              <div className="w-full lg:w-1/3 p-8 border-b lg:border-b-0 lg:border-r border-gray-100">
-                <h2 className="font-serif text-2xl font-normal uppercase tracking-wider text-[#222222] mb-8">Danh sách cửa hàng</h2>
+              <div className="w-full lg:w-1/3 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-gray-100">
+                <h2 className="font-serif text-xl md:text-2xl font-normal uppercase tracking-wider text-[#222222] mb-6 md:mb-8">Danh sách cửa hàng</h2>
                 {loading ? (
                   <div className="flex flex-col gap-4">
                     {[...Array(4)].map((_, i) => (
@@ -141,21 +141,21 @@ export default function Contact() {
                     ))}
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-4 overflow-y-auto max-h-[500px] pr-2">
+                  <div className="flex flex-col gap-4 overflow-y-auto max-h-[350px] lg:max-h-[500px] pr-2">
                     {shops.map((shop) => (
                       <div
                         key={shop.id}
                         onClick={() => setSelectedShop(shop)}
-                        className={`cursor-pointer p-5 rounded-xl border transition-all duration-200 ${
+                        className={`cursor-pointer p-4 rounded-xl border transition-all duration-200 ${
                           selectedShop?.id === shop.id
                             ? 'border-[#222222] bg-gray-50'
                             : 'border-transparent hover:bg-gray-50'
                         }`}
                       >
-                        <h3 className={`font-serif text-lg tracking-wide uppercase mb-2 ${selectedShop?.id === shop.id ? 'text-[#222222]' : 'text-[#5a5a5a]'}`}>
+                        <h3 className={`font-serif text-base md:text-lg tracking-wide uppercase mb-1 md:mb-2 ${selectedShop?.id === shop.id ? 'text-[#222222]' : 'text-[#5a5a5a]'}`}>
                           {shop.name}
                         </h3>
-                        <p className="text-[#5a5a5a] text-xs mb-2 leading-relaxed">
+                        <p className="text-[#5a5a5a] text-xs mb-1 md:mb-2 leading-relaxed">
                           {shop.address}
                         </p>
                         <p className="text-[#222222] text-xs font-medium">
@@ -168,7 +168,7 @@ export default function Contact() {
               </div>
 
               {/* Right: Map */}
-              <div className="flex-1 min-h-[450px] lg:min-h-[600px] bg-gray-50 relative">
+              <div className="flex-1 min-h-[300px] md:min-h-[450px] lg:min-h-[600px] bg-gray-50 relative">
                 {!loading && selectedShop ? (
                   <div
                     className="absolute inset-0 w-full h-full grayscale opacity-80"
@@ -185,22 +185,22 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start pb-12">
             <div>
               <span className="text-[10px] font-bold tracking-widest text-[#5a5a5a] uppercase">Kết nối với chúng tôi</span>
-              <h2 className="font-serif text-3xl font-normal uppercase tracking-wider text-[#222222] mt-4 mb-6">Gửi tin nhắn</h2>
-              <p className="text-[#5a5a5a] text-sm leading-relaxed mb-8">
+              <h2 className="font-serif text-2xl md:text-3xl font-normal uppercase tracking-wider text-[#222222] mt-2 md:mt-4 mb-4 md:mb-6">Gửi tin nhắn</h2>
+              <p className="text-[#5a5a5a] text-xs md:text-sm leading-relaxed mb-6 md:mb-8">
                 Bạn có câu hỏi về sản phẩm hay cần hỗ trợ với đơn hàng? Vui lòng điền thông tin vào biểu mẫu, chúng tôi sẽ phản hồi trong thời gian sớm nhất.
               </p>
-              <div className="flex flex-col gap-4 text-xs text-[#5a5a5a] uppercase tracking-wider font-bold">
+              <div className="flex flex-col gap-3 md:gap-4 text-xs text-[#5a5a5a] uppercase tracking-wider font-bold">
                 <div className="flex items-center gap-4"><span>—</span> Tư vấn miễn phí</div>
                 <div className="flex items-center gap-4"><span>—</span> Phản hồi nhanh chóng</div>
                 <div className="flex items-center gap-4"><span>—</span> Đặt hàng theo yêu cầu</div>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-6">
-              <div className="grid grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col gap-5 md:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className="text-[10px] font-bold text-[#5a5a5a] mb-2 block uppercase tracking-widest">Họ & Tên *</label>
                   <input type="text" name="fullName" value={formData.fullName} onChange={handleFormChange} required className="w-full bg-gray-50 border border-transparent rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#222222] transition-all" />

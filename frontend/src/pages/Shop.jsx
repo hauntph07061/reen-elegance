@@ -72,20 +72,20 @@ function Shop() {
       <Header />
 
       {/* Hero Banner for Shop */}
-      <div className="pt-40 pb-16 text-center">
-        <h1 className="font-serif text-5xl font-normal text-[#222222] uppercase tracking-wider">
+      <div className="pt-24 md:pt-40 pb-8 md:pb-16 text-center px-4">
+        <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#222222] uppercase tracking-wider">
           {q ? `Search: "${q}"` : 'Our Collection'}
         </h1>
-        <p className="mt-4 text-[#5a5a5a] text-sm">
+        <p className="mt-2 md:mt-4 text-[#5a5a5a] text-xs sm:text-sm">
           Carefully selected plants to bring life to your space.
         </p>
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 pb-24 flex flex-col md:flex-row gap-12 lg:gap-16">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 pb-24 flex flex-col md:flex-row gap-12 lg:gap-16">
         
-        {/* Left Sidebar: Categories */}
-        <aside className="w-full md:w-56 lg:w-64 flex-shrink-0">
+        {/* Left Sidebar: Categories (Desktop only) */}
+        <aside className="hidden md:block w-56 lg:w-64 flex-shrink-0">
           <div className="md:sticky md:top-32 bg-gray-50 p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm">
             <h2 className="font-serif text-lg text-[#222222] font-medium mb-6 tracking-widest uppercase border-b border-gray-200 pb-4">
               Danh Mục
@@ -140,45 +140,75 @@ function Shop() {
         {/* Product Grid Area */}
         <div className="flex-1 min-w-0">
 
-        {/* Toolbar */}
-        <div className="flex justify-between items-center mb-10 pb-4 border-b border-gray-300">
-          <p className="text-sm text-[#5a5a5a]">
-            Showing <strong className="text-[#222222] font-semibold">{pageData.totalElements}</strong> results
-          </p>
-          <div className="flex items-center gap-3">
-            <label className="text-sm text-[#5a5a5a] uppercase text-[10px] tracking-wider font-bold">Sort by</label>
-            <select
-              value={sort}
-              onChange={(e) => { setSort(e.target.value); setCurrentPage(1) }}
-              className="bg-transparent border-none text-sm text-[#222222] focus:outline-none cursor-pointer uppercase font-serif"
-            >
-              <option value="id,desc">Newest</option>
-              <option value="regularPrice,asc">Price: Low to High</option>
-              <option value="regularPrice,desc">Price: High to Low</option>
-              <option value="name,asc">Alphabetical</option>
-            </select>
+          {/* Mobile Categories (Horizontal Scroll - Mobile only) */}
+          <div className="block md:hidden mb-6">
+            <div className="flex overflow-x-auto gap-2 pb-3 -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <button 
+                onClick={() => handleCategoryClick(null)}
+                className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border whitespace-nowrap transition-all ${!categoryIdParam ? 'bg-[#a3a68c] text-white border-[#a3a68c] shadow-sm' : 'bg-gray-50 text-[#5a5a5a] border-gray-200'}`}
+              >
+                Tất cả
+              </button>
+              {categories.map(category => {
+                const isActive = Number(categoryIdParam) === category.id;
+                return (
+                  <button 
+                    key={category.id}
+                    onClick={() => handleCategoryClick(category.id)}
+                    className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border whitespace-nowrap transition-all ${isActive ? 'bg-[#a3a68c] text-white border-[#a3a68c] shadow-sm' : 'bg-gray-50 text-[#5a5a5a] border-gray-200'}`}
+                  >
+                    {category.name}
+                  </button>
+                );
+              })}
+            </div>
+            {/* Custom CSS to hide scrollbar */}
+            <style dangerouslySetInnerHTML={{ __html: `
+              .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+              }
+            `}} />
           </div>
-        </div>
 
-        {/* Grid */}
-        {loading ? (
-          <div className="flex-1 flex items-center justify-center min-h-[400px]">
-            <div className="w-8 h-8 border-2 border-gray-300 border-t-[#a3a68c] rounded-full animate-spin" />
+          {/* Toolbar */}
+          <div className="flex justify-between items-center mb-6 md:mb-10 pb-4 border-b border-gray-200 gap-4">
+            <p className="text-xs sm:text-sm text-[#5a5a5a]">
+              Showing <strong className="text-[#222222] font-semibold">{pageData.totalElements}</strong> results
+            </p>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <label className="text-[9px] sm:text-sm text-[#5a5a5a] uppercase tracking-wider font-bold whitespace-nowrap">Sort by</label>
+              <select
+                value={sort}
+                onChange={(e) => { setSort(e.target.value); setCurrentPage(1) }}
+                className="bg-transparent border-none text-xs sm:text-sm text-[#222222] focus:outline-none cursor-pointer uppercase font-serif"
+              >
+                <option value="id,desc">Newest</option>
+                <option value="regularPrice,asc">Price: Low to High</option>
+                <option value="regularPrice,desc">Price: High to Low</option>
+                <option value="name,asc">Alphabetical</option>
+              </select>
+            </div>
           </div>
-        ) : products.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] text-center gap-4">
-            <h2 className="font-serif text-2xl text-[#222222]">No products found</h2>
-            <Link to="/shop" className="text-[#a3a68c] underline text-sm hover:text-[#8e9177]">
-              Clear filters
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-            {products.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
+
+          {/* Grid */}
+          {loading ? (
+            <div className="flex-1 flex items-center justify-center min-h-[400px]">
+              <div className="w-8 h-8 border-2 border-gray-300 border-t-[#a3a68c] rounded-full animate-spin" />
+            </div>
+          ) : products.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] text-center gap-4">
+              <h2 className="font-serif text-2xl text-[#222222]">No products found</h2>
+              <Link to="/shop" className="text-[#a3a68c] underline text-sm hover:text-[#8e9177]">
+                Clear filters
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-8 gap-y-8 sm:gap-y-12">
+              {products.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
 
         {/* Pagination */}
         {!loading && pageData.totalElements > 0 && (
