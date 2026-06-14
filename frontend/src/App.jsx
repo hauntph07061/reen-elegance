@@ -10,6 +10,7 @@ import Contact from './pages/Contact'
 import About from './pages/About'
 import CustomerLogin from './pages/CustomerLogin'
 import CustomerProfile from './pages/CustomerProfile'
+import Favorites from './pages/Favorites'
 import { DeliveryPolicy, ReturnPolicy, PrivacyPolicy, PurchasePolicy } from './pages/StaticPages'
 import FloatingContact from './components/ui/FloatingContact'
 import ScrollToTop from './components/ui/ScrollToTop'
@@ -111,6 +112,7 @@ function AppContent() {
             <Route path="/lien-he" element={<Contact />} />
             <Route path="/login" element={<CustomerLogin />} />
             <Route path="/profile" element={<CustomerProfile />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/chinh-sach-giao-nhan" element={<DeliveryPolicy />} />
             <Route path="/chinh-sach-doi-tra" element={<ReturnPolicy />} />
             <Route path="/chinh-sach-bao-mat" element={<PrivacyPolicy />} />

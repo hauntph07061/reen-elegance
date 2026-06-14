@@ -76,7 +76,7 @@ function Header() {
           </form>
           
           {/* Favorite Link (Desktop) */}
-          <Link to={customer ? "/profile?tab=favorites" : "/login"} className="hidden sm:block text-[#222222] hover:text-[#a3a68c] transition-colors relative">
+          <Link to="/favorites" className="hidden sm:block text-[#222222] hover:text-[#a3a68c] transition-colors relative">
             <Heart className="w-5 h-5" strokeWidth={1.5} />
             {favoriteIds.length > 0 && (
               <span className="absolute -top-1.5 -right-1.5 bg-[#1b6060] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -146,7 +146,7 @@ function Header() {
             {/* Bottom Actions in Drawer */}
             <div className="pt-6 border-t border-gray-100 flex flex-col gap-4">
               <Link 
-                to={customer ? "/profile?tab=favorites" : "/login"} 
+                to="/favorites" 
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-3 text-sm font-medium text-[#222222] hover:text-[#a3a68c]"
               >
