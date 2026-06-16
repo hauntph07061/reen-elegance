@@ -89,9 +89,20 @@ function Checkout() {
     fetch(`${import.meta.env.VITE_API_URL}/v1/settings`)
       .then(r => r.json())
       .then(data => {
+        let base_fee = 30000;
+        let free_threshold = 500000;
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          base_fee = parseInt(data.shipping_base_fee) || 30000;
+          free_threshold = parseInt(data.shipping_free_threshold) || 500000;
+        } else if (Array.isArray(data)) {
+          const baseItem = data.find(item => item.settingKey === 'shipping_base_fee');
+          const thresholdItem = data.find(item => item.settingKey === 'shipping_free_threshold');
+          if (baseItem) base_fee = parseInt(baseItem.settingValue) || 30000;
+          if (thresholdItem) free_threshold = parseInt(thresholdItem.settingValue) || 500000;
+        }
         setShippingSettings({
-          base_fee: parseInt(data.shipping_base_fee) || 30000,
-          free_threshold: parseInt(data.shipping_free_threshold) || 500000
+          base_fee,
+          free_threshold
         });
       })
       .catch(e => console.error(e));

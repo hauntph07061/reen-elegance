@@ -61,7 +61,7 @@ export default function Favorites() {
       <SEO
         title="Danh sách yêu thích | Green Elegance"
         description="Các sản phẩm hoa tươi nghệ thuật bạn đã lưu và yêu thích tại Green Elegance."
-        url="https://greenelegance.vn/favorites"
+        url={`${window.location.origin}/favorites`}
       />
       
       <div className="flex flex-col min-h-screen bg-white text-[#2c2c2c] font-sans">

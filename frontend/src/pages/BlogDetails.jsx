@@ -43,7 +43,7 @@ export default function BlogDetails() {
               title={post.title}
               description={post.summary}
               image={post.thumbnailUrl}
-              url={`https://greenelegance.vn/tin-tuc/${post.slug}`}
+              url={`${window.location.origin}/tin-tuc/${post.slug}`}
             />
 
             {/* Hero Image */}

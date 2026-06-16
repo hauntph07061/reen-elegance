@@ -31,7 +31,7 @@ export default function SEO({ title, description, image, url, schema }) {
     if (image) {
       setMetaTag('property', 'og:image', image);
     } else {
-      setMetaTag('property', 'og:image', 'https://greenelegance.vn/default-og.jpg');
+      setMetaTag('property', 'og:image', `${window.location.origin}/default-og.jpg`);
     }
 
     // 4. Cập nhật JSON-LD Schema
@@ -48,8 +48,8 @@ export default function SEO({ title, description, image, url, schema }) {
       "@context": "https://schema.org",
       "@type": "Florist",
       "name": "Green Elegance",
-      "image": "https://greenelegance.vn/default-og.jpg",
-      "url": "https://greenelegance.vn",
+      "image": `${window.location.origin}/default-og.jpg`,
+      "url": window.location.origin,
       "telephone": "0987654321",
       "address": {
         "@type": "PostalAddress",

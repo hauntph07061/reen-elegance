@@ -22,13 +22,14 @@ public class SeoController {
     private final CategoryRepository categoryRepository;
     private final PostRepository postRepository;
 
-    private static final String BASE_URL = "https://greenelegance.vn";
+    @org.springframework.beans.factory.annotation.Value("${app.seo.base-url:https://green-elegance.web.app}")
+    private String baseUrl;
 
     @GetMapping(value = "/robots.txt", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getRobotsTxt() {
         String robots = "User-agent: *\n" +
                         "Allow: /\n" +
-                        "Sitemap: " + BASE_URL + "/api/v1/sitemap.xml\n";
+                        "Sitemap: " + baseUrl + "/api/v1/sitemap.xml\n";
         return ResponseEntity.ok(robots);
     }
 
@@ -39,30 +40,30 @@ public class SeoController {
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
         // Trang tĩnh
-        appendUrl(xml, BASE_URL + "/", "1.0");
-        appendUrl(xml, BASE_URL + "/shop", "0.9");
-        appendUrl(xml, BASE_URL + "/tin-tuc", "0.9");
-        appendUrl(xml, BASE_URL + "/lien-he", "0.8");
-        appendUrl(xml, BASE_URL + "/chinh-sach-giao-nhan", "0.5");
-        appendUrl(xml, BASE_URL + "/chinh-sach-doi-tra", "0.5");
-        appendUrl(xml, BASE_URL + "/chinh-sach-bao-mat", "0.5");
+        appendUrl(xml, baseUrl + "/", "1.0");
+        appendUrl(xml, baseUrl + "/shop", "0.9");
+        appendUrl(xml, baseUrl + "/tin-tuc", "0.9");
+        appendUrl(xml, baseUrl + "/lien-he", "0.8");
+        appendUrl(xml, baseUrl + "/chinh-sach-giao-nhan", "0.5");
+        appendUrl(xml, baseUrl + "/chinh-sach-doi-tra", "0.5");
+        appendUrl(xml, baseUrl + "/chinh-sach-bao-mat", "0.5");
 
         // Categories
         List<Category> categories = categoryRepository.findAll();
         for (Category category : categories) {
-            appendUrl(xml, BASE_URL + "/shop?categoryId=" + category.getId(), "0.8");
+            appendUrl(xml, baseUrl + "/shop?categoryId=" + category.getId(), "0.8");
         }
 
         // Products
         List<Product> products = productRepository.findAll();
         for (Product product : products) {
-            appendUrl(xml, BASE_URL + "/san-pham/" + product.getSlug(), "0.9");
+            appendUrl(xml, baseUrl + "/san-pham/" + product.getSlug(), "0.9");
         }
 
         // Posts
         List<Post> posts = postRepository.findAll();
         for (Post post : posts) {
-            appendUrl(xml, BASE_URL + "/tin-tuc/" + post.getSlug(), "0.8");
+            appendUrl(xml, baseUrl + "/tin-tuc/" + post.getSlug(), "0.8");
         }
 
         xml.append("</urlset>");

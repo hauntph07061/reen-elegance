@@ -41,7 +41,9 @@ function FloatingContact() {
     {
       id: 'zalo',
       name: 'Chat Zalo',
-      href: settings.store_zalo_link,
+      href: settings.store_zalo_link === 'https://zalo.me/0123456789' || settings.store_zalo_link === 'https://zalo.me/' || !settings.store_zalo_link
+        ? `https://zalo.me/${(settings.store_phone || '0123456789').replace(/\D/g, '')}`
+        : settings.store_zalo_link,
       icon: (
         <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" className="w-8 h-8 object-contain" />
       )
@@ -49,7 +51,7 @@ function FloatingContact() {
     {
       id: 'messenger',
       name: 'Messenger',
-      href: settings.store_messenger_link,
+      href: settings.store_messenger_link || 'https://m.me/',
       icon: (
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" alt="Messenger" className="w-8 h-8 object-contain" />
       )
@@ -57,7 +59,7 @@ function FloatingContact() {
     {
       id: 'call',
       name: 'Gọi điện',
-      href: `tel:${settings.store_phone.replace(/\D/g, '')}`,
+      href: `tel:${(settings.store_phone || '0123456789').replace(/\D/g, '')}`,
       icon: (
         <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
           <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,7 +71,7 @@ function FloatingContact() {
     {
       id: 'sms',
       name: 'Gửi SMS',
-      href: `sms:${settings.store_phone.replace(/\D/g, '')}`,
+      href: `sms:${(settings.store_phone || '0123456789').replace(/\D/g, '')}`,
       icon: (
         <div className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
           <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +83,7 @@ function FloatingContact() {
     {
       id: 'map',
       name: 'Chỉ đường',
-      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.store_address)}`,
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.store_address || '')}`,
       icon: (
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" alt="Google Maps" className="w-8 h-8 object-contain" />
       )

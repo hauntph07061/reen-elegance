@@ -29,3 +29,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+app:
+  seo:
+    base-url: ${APP_SEO_BASE_URL:https://green-elegance.web.app}
+

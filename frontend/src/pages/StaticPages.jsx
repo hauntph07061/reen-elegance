@@ -58,8 +58,15 @@ export const PurchasePolicy = () => {
     fetch(`${import.meta.env.VITE_API_URL}/v1/settings`)
       .then(res => res.json())
       .then(data => {
-        if (data && data.purchase_policy) {
-          setContent(data.purchase_policy);
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          if (data.purchase_policy) {
+            setContent(data.purchase_policy);
+          }
+        } else if (Array.isArray(data)) {
+          const item = data.find(i => i.settingKey === 'purchase_policy');
+          if (item && item.settingValue) {
+            setContent(item.settingValue);
+          }
         }
       })
       .catch(e => console.error(e));

@@ -29,7 +29,9 @@ export default function Contact() {
     fetch(`${import.meta.env.VITE_API_URL}/v1/settings`)
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          setSettings(prev => ({...prev, ...data}));
+        } else if (Array.isArray(data)) {
           const newSettings = {};
           data.forEach(item => { newSettings[item.settingKey] = item.settingValue; });
           setSettings(prev => ({...prev, ...newSettings}));
@@ -94,7 +96,7 @@ export default function Contact() {
       <SEO
         title="Contact Us | Green Elegance"
         description="Find Green Elegance store locations and contact information."
-        url="https://greenelegance.vn/contact"
+        url={`${window.location.origin}/contact`}
       />
       <div className="flex flex-col min-h-screen bg-white text-[#222222]">
         <Header />

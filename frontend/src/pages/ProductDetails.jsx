@@ -113,7 +113,7 @@ function ProductDetails() {
         title={product.name}
         description={product.description || `${product.name} — Green Elegance`}
         image={product.thumbnailUrl}
-        url={`https://greenelegance.vn/san-pham/${product.slug}`}
+        url={`${window.location.origin}/san-pham/${product.slug}`}
       />
       <Header />
 

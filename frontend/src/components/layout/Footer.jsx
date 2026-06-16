@@ -13,7 +13,9 @@ function Footer() {
     fetch(`${import.meta.env.VITE_API_URL}/v1/settings`)
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          setSettings(prev => ({...prev, ...data}));
+        } else if (Array.isArray(data)) {
           const newSettings = {};
           data.forEach(item => { newSettings[item.settingKey] = item.settingValue; });
           setSettings(prev => ({...prev, ...newSettings}));
