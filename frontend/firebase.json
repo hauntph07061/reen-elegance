@@ -6,6 +6,13 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "source": "/api/v1/sitemap.xml",
+        "destination": "https://green-elegance-api.onrender.com/api/v1/sitemap.xml",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "**",
