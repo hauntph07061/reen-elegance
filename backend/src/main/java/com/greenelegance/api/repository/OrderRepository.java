@@ -105,4 +105,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @org.springframework.data.repository.query.Param("startDate") java.time.LocalDateTime startDate,
             @org.springframework.data.repository.query.Param("endDate") java.time.LocalDateTime endDate,
             @org.springframework.data.repository.query.Param("keyword") String keyword);
+
+    @Query("SELECT o.user.id, COUNT(o), SUM(CASE WHEN o.status != 'CANCELLED' THEN o.grandTotal ELSE 0.0 END) " +
+           "FROM Order o " +
+           "WHERE o.user.id IS NOT NULL " +
+           "GROUP BY o.user.id")
+    java.util.List<Object[]> getUserOrderStats();
 }

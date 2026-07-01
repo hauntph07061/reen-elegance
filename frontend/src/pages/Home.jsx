@@ -26,7 +26,7 @@ function Home() {
       <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center text-center">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80" 
+            src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=1600" 
             alt="Hero Background" 
             className="w-full h-full object-cover brightness-[0.65]"
           />

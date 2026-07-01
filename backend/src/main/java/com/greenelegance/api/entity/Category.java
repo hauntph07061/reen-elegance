@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "categories")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@BatchSize(size = 20)
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

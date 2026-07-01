@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,8 +22,30 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public List<UserDto> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(this::mapToDto)
+        List<User> users = userRepository.findAll();
+        
+        // Fetch stats for all users in a single query to prevent N+1 queries
+        List<Object[]> statsRaw = orderRepository.getUserOrderStats();
+        Map<Long, Object[]> statsMap = statsRaw.stream()
+                .collect(Collectors.toMap(
+                        row -> (Long) row[0],
+                        row -> row,
+                        (existing, replacement) -> existing
+                ));
+
+        return users.stream()
+                .map(user -> {
+                    UserDto dto = mapToDtoBasic(user);
+                    Object[] stats = statsMap.get(user.getId());
+                    if (stats != null) {
+                        dto.setTotalOrders(((Number) stats[1]).longValue());
+                        dto.setTotalSpent(stats[2] != null ? new java.math.BigDecimal(stats[2].toString()) : java.math.BigDecimal.ZERO);
+                    } else {
+                        dto.setTotalOrders(0L);
+                        dto.setTotalSpent(java.math.BigDecimal.ZERO);
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -74,7 +97,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private UserDto mapToDto(User user) {
+    private UserDto mapToDtoBasic(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
@@ -85,10 +108,13 @@ public class UserService {
         dto.setActive(user.getIsActive() != null && user.getIsActive());
         dto.setCreatedAt(user.getCreatedAt());
         dto.setLoyaltyPoints(user.getLoyaltyPoints());
-        
+        return dto;
+    }
+
+    private UserDto mapToDto(User user) {
+        UserDto dto = mapToDtoBasic(user);
         dto.setTotalOrders(orderRepository.countByUserId(user.getId()));
         dto.setTotalSpent(orderRepository.sumTotalSpentByUserId(user.getId()));
-        
         return dto;
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.BatchSize;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Entity
 @Table(name = "products")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@BatchSize(size = 20)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,16 +72,19 @@ public class Product {
     )
     @OrderBy("id ASC")
     @Builder.Default
+    @BatchSize(size = 20)
     private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("displayOrder ASC")
     @Builder.Default
+    @BatchSize(size = 20)
     private Set<ProductAttribute> attributes = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("displayOrder ASC")
     @Builder.Default
+    @BatchSize(size = 20)
     private Set<ProductImage> images = new HashSet<>();
 
     @CreationTimestamp

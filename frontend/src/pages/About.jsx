@@ -122,7 +122,7 @@ export default function About() {
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
           <img 
-            src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&q=80" 
+            src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&q=80&w=1200" 
             alt="Pattern" 
             className="w-full h-full object-cover grayscale"
           />
