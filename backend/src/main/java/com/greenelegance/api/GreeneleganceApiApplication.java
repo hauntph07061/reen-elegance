@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.CommandLineRunner;
-import com.greenelegance.api.entity.User;
 import com.greenelegance.api.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
