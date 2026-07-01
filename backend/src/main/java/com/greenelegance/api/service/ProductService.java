@@ -8,6 +8,7 @@ import com.greenelegance.api.repository.CategoryRepository;
 import com.greenelegance.api.repository.ProductRepository;
 import com.greenelegance.api.repository.specification.ProductSpecification;
 import com.greenelegance.api.util.SlugUtils;
+import com.greenelegance.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,13 +82,13 @@ public class ProductService {
     public ProductDto getProductBySlug(String slug) {
         return productRepository.findBySlug(slug)
                 .map(this::mapToDto)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại: " + slug));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.PRODUCT_NOT_FOUND_SLUG + slug));
     }
 
     @Transactional(readOnly = true)
     public AdminProductResponse getAdminProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.PRODUCT_NOT_FOUND));
         return mapToAdminResponse(product);
     }
 
@@ -104,7 +105,7 @@ public class ProductService {
     @Transactional
     public AdminProductResponse updateAdminProduct(Long id, AdminProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.PRODUCT_NOT_FOUND));
         updateProductFromRequest(product, request);
         return mapToAdminResponse(productRepository.save(product));
     }
@@ -112,7 +113,7 @@ public class ProductService {
     @Transactional
     public void deleteAdminProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.PRODUCT_NOT_FOUND));
         // Ẩn sản phẩm thay vì xóa cứng (Soft delete)
         product.setIsActive(false);
         productRepository.save(product);
@@ -121,7 +122,7 @@ public class ProductService {
     @Transactional
     public AdminProductResponse toggleFeatured(Long id, Boolean isFeatured) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sản phẩm không tồn tại"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.PRODUCT_NOT_FOUND));
         product.setIsFeatured(isFeatured);
         return mapToAdminResponse(productRepository.save(product));
     }

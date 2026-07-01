@@ -5,6 +5,7 @@ import com.greenelegance.api.dto.admin.UserRequest;
 import com.greenelegance.api.entity.User;
 import com.greenelegance.api.repository.UserRepository;
 import com.greenelegance.api.repository.OrderRepository;
+import com.greenelegance.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class UserService {
 
     public UserDto createUser(UserRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Tên đăng nhập đã tồn tại!");
+            throw new RuntimeException(MessageConstants.USERNAME_ALREADY_EXISTS);
         }
 
         User user = User.builder()
@@ -71,7 +72,7 @@ public class UserService {
 
     public UserDto updateUser(Long id, UserRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.USER_NOT_FOUND));
 
         // Không cho phép sửa tên đăng nhập để tránh rủi ro
         user.setFullName(request.getFullName());
@@ -87,10 +88,10 @@ public class UserService {
 
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.USER_NOT_FOUND));
         
         if ("admin".equals(user.getUsername())) {
-            throw new RuntimeException("Không thể khóa/xóa tài khoản Super Admin!");
+            throw new RuntimeException(MessageConstants.ADMIN_DELETE_ERROR);
         }
         
         user.setIsActive(false);

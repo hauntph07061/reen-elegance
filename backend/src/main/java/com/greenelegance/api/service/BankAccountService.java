@@ -2,6 +2,7 @@ package com.greenelegance.api.service;
 
 import com.greenelegance.api.model.BankAccount;
 import com.greenelegance.api.repository.BankAccountRepository;
+import com.greenelegance.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,7 @@ public class BankAccountService {
     @Transactional
     public BankAccount updateBankAccount(Long id, BankAccount updatedAccount) {
         BankAccount account = bankAccountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.BANK_ACCOUNT_NOT_FOUND));
 
         account.setBankId(updatedAccount.getBankId());
         account.setAccountNo(updatedAccount.getAccountNo());

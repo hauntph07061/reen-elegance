@@ -6,6 +6,7 @@ import com.greenelegance.api.dto.admin.ReorderRequest;
 import com.greenelegance.api.entity.Category;
 import com.greenelegance.api.repository.CategoryRepository;
 import com.greenelegance.api.util.SlugUtils;
+import com.greenelegance.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@org.hibernate.annotations.BatchSize(size = 20)
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -44,7 +46,7 @@ public class CategoryService {
     @Transactional
     public CategoryDto updateCategory(Long id, CategoryRequest request) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.CATEGORY_NOT_FOUND));
         
         category.setName(request.getName());
         category.setDescription(request.getDescription());
@@ -57,10 +59,10 @@ public class CategoryService {
     @Transactional
     public void deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.CATEGORY_NOT_FOUND));
         
         if (category.getProducts() != null && !category.getProducts().isEmpty()) {
-            throw new RuntimeException("Không thể xóa danh mục đang có sản phẩm.");
+            throw new RuntimeException(MessageConstants.CATEGORY_HAS_PRODUCTS);
         }
         
         categoryRepository.delete(category);

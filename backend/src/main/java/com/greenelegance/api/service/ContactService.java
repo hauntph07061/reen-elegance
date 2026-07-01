@@ -5,6 +5,7 @@ import com.greenelegance.api.dto.ContactResponseDto;
 import com.greenelegance.api.entity.Contact;
 import com.greenelegance.api.entity.ContactStatus;
 import com.greenelegance.api.repository.ContactRepository;
+import com.greenelegance.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,13 +35,13 @@ public class ContactService {
 
     public ContactResponseDto getContactById(Long id) {
         Contact contact = contactRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Contact not found with id: " + id));
+            .orElseThrow(() -> new RuntimeException(MessageConstants.CONTACT_NOT_FOUND + id));
         return mapToResponse(contact);
     }
 
     public ContactResponseDto updateContactStatus(Long id, ContactStatus status) {
         Contact contact = contactRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Contact not found with id: " + id));
+            .orElseThrow(() -> new RuntimeException(MessageConstants.CONTACT_NOT_FOUND + id));
         
         contact.setStatus(status);
         Contact updatedContact = contactRepository.save(contact);

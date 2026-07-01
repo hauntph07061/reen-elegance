@@ -2,6 +2,7 @@ package com.greenelegance.api.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.greenelegance.api.util.MessageConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,13 +46,13 @@ public class ImageUploadService {
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
-            throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
+            throw new RuntimeException(MessageConstants.FILE_STORAGE_CREATE_ERROR, ex);
         }
     }
 
     public String uploadFile(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
-            throw new IllegalArgumentException("File is empty.");
+            throw new IllegalArgumentException(MessageConstants.FILE_IS_EMPTY);
         }
 
         // If Cloudinary is configured, upload to cloud

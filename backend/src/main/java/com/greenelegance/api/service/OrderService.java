@@ -13,6 +13,7 @@ import com.greenelegance.api.repository.PointsLedgerRepository;
 import com.greenelegance.api.repository.SettingRepository;
 import com.greenelegance.api.entity.User;
 import com.greenelegance.api.entity.PointsLedger;
+import com.greenelegance.api.util.MessageConstants;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class OrderService {
 
     public String uploadProof(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
-            throw new IllegalArgumentException("File tải lên không được rỗng!");
+            throw new IllegalArgumentException(MessageConstants.FILE_EMPTY);
         }
 
         // Tạo thư mục nếu chưa tồn tại
@@ -135,11 +136,11 @@ public class OrderService {
 
         for (OrderItemRequest itemReq : request.getItems()) {
             Product product = productRepository.findById(itemReq.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm có ID: " + itemReq.getProductId()));
+                    .orElseThrow(() -> new RuntimeException(MessageConstants.PRODUCT_NOT_FOUND_ID + itemReq.getProductId()));
 
             // Kiểm tra số lượng tồn kho
             if (product.getStockQuantity() != null && product.getStockQuantity() < itemReq.getQuantity()) {
-                throw new RuntimeException("Sản phẩm '" + product.getName() + "' không đủ số lượng trong kho!");
+                throw new RuntimeException(String.format(MessageConstants.PRODUCT_OUT_OF_STOCK_TEMPLATE, product.getName()));
             }
 
             // Trừ tồn kho nếu có
@@ -187,7 +188,7 @@ public class OrderService {
 
     public Order getOrderByCode(String orderCode) {
         return orderRepository.findByOrderCode(orderCode)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng với mã: " + orderCode));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.ORDER_NOT_FOUND_CODE + orderCode));
     }
 
     @Transactional(readOnly = true)
@@ -198,7 +199,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Order getOrderById(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng với ID: " + id));
+                .orElseThrow(() -> new RuntimeException(MessageConstants.ORDER_NOT_FOUND_ID + id));
     }
 
     @Transactional
@@ -227,7 +228,7 @@ public class OrderService {
                                 .user(user)
                                 .order(savedOrder)
                                 .pointsChange(pointsEarned)
-                                .description("Cộng điểm từ Đơn hàng #" + savedOrder.getOrderCode())
+                                .description(MessageConstants.POINTS_EARNED_DESCRIPTION + savedOrder.getOrderCode())
                                 .build();
                         pointsLedgerRepository.save(ledger);
                     }
