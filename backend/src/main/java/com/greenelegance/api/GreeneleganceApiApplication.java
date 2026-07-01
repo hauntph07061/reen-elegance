@@ -19,9 +19,11 @@ public class GreeneleganceApiApplication {
 	public CommandLineRunner dataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 			userRepository.findByUsername("admin").ifPresent(admin -> {
-				admin.setPassword(passwordEncoder.encode("admin123"));
-				admin.setIsActive(true); // Đảm bảo luôn kích hoạt
-				userRepository.save(admin);
+				if (!passwordEncoder.matches("admin123", admin.getPassword()) || !Boolean.TRUE.equals(admin.getIsActive())) {
+					admin.setPassword(passwordEncoder.encode("admin123"));
+					admin.setIsActive(true); // Đảm bảo luôn kích hoạt
+					userRepository.save(admin);
+				}
 			});
 		};
 	}

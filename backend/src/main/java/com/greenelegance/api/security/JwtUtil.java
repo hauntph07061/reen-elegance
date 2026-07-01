@@ -15,11 +15,11 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // Khoá bí mật (nên để trong application.properties, đây là mặc định để test)
-    private final String SECRET_KEY = "GreenEleganceSecretKeyForJwtAuthenticationSpringSecurityTutorial";
+    @Value("${app.jwt.secret:GreenEleganceSecretKeyForJwtAuthenticationSpringSecurityTutorial}")
+    private String secretKey;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public String extractUsername(String token) {
