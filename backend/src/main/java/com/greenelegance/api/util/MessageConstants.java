@@ -27,6 +27,11 @@ public class MessageConstants {
     public static final String PRODUCT_NOT_FOUND_SLUG = "Sản phẩm không tồn tại: ";
     public static final String PRODUCT_NOT_FOUND = "Sản phẩm không tồn tại";
 
+    // Favorite
+    public static final String PRODUCT_ALREADY_FAVORITE = "Product is already in favorites";
+    public static final String FAVORITE_ADDED = "Added to favorites";
+    public static final String FAVORITE_REMOVED = "Removed from favorites";
+
     // User
     public static final String USERNAME_ALREADY_EXISTS = "Tên đăng nhập đã tồn tại!";
     public static final String USER_NOT_FOUND = "Không tìm thấy tài khoản";

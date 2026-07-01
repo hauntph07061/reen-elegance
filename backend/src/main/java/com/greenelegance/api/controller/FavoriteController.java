@@ -3,14 +3,13 @@ package com.greenelegance.api.controller;
 import com.greenelegance.api.entity.Favorite;
 import com.greenelegance.api.entity.Product;
 import com.greenelegance.api.entity.User;
-import com.greenelegance.api.repository.FavoriteRepository;
-import com.greenelegance.api.repository.ProductRepository;
 import com.greenelegance.api.repository.UserRepository;
+import com.greenelegance.api.service.FavoriteService;
+import com.greenelegance.api.util.MessageConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +22,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 public class FavoriteController {
 
-    private final FavoriteRepository favoriteRepository;
-    private final ProductRepository productRepository;
+    private final FavoriteService favoriteService;
     private final UserRepository userRepository;
 
     private User getCurrentUser() {
@@ -40,7 +38,7 @@ public class FavoriteController {
     @GetMapping
     public ResponseEntity<List<Product>> getMyFavorites() {
         User user = getCurrentUser();
-        List<Favorite> favorites = favoriteRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
+        List<Favorite> favorites = favoriteService.getFavorites(user);
         List<Product> products = favorites.stream()
                 .map(Favorite::getProduct)
                 .collect(Collectors.toList());
@@ -50,38 +48,20 @@ public class FavoriteController {
     @GetMapping("/ids")
     public ResponseEntity<List<Long>> getMyFavoriteIds() {
         User user = getCurrentUser();
-        List<Favorite> favorites = favoriteRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
-        List<Long> ids = favorites.stream()
-                .map(f -> f.getProduct().getId())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(ids);
+        return ResponseEntity.ok(favoriteService.getFavoriteIds(user));
     }
 
     @PostMapping("/{productId}")
     public ResponseEntity<?> addFavorite(@PathVariable Long productId) {
         User user = getCurrentUser();
-        
-        if (favoriteRepository.existsByUserIdAndProductId(user.getId(), productId)) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Product is already in favorites"));
-        }
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        Favorite favorite = Favorite.builder()
-                .user(user)
-                .product(product)
-                .build();
-        favoriteRepository.save(favorite);
-
-        return ResponseEntity.ok(Map.of("message", "Added to favorites", "productId", productId));
+        favoriteService.addFavorite(user, productId);
+        return ResponseEntity.ok(Map.of("message", MessageConstants.FAVORITE_ADDED, "productId", productId));
     }
 
     @DeleteMapping("/{productId}")
-    @Transactional
     public ResponseEntity<?> removeFavorite(@PathVariable Long productId) {
         User user = getCurrentUser();
-        favoriteRepository.deleteByUserIdAndProductId(user.getId(), productId);
-        return ResponseEntity.ok(Map.of("message", "Removed from favorites", "productId", productId));
+        favoriteService.removeFavorite(user, productId);
+        return ResponseEntity.ok(Map.of("message", MessageConstants.FAVORITE_REMOVED, "productId", productId));
     }
 }

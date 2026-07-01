@@ -23,11 +23,8 @@ public class SearchService {
         Page<ProductDto> productsPage = productService.getProducts(null, null, null, keyword, null, PageRequest.of(0, 5));
         List<ProductDto> products = productsPage.getContent();
 
-        // Lấy tối đa 5 danh mục khớp
-        List<CategoryDto> categories = categoryRepository.searchCategoriesByName(keyword)
-                .stream()
-                .limit(5)
-                .toList();
+        // Lấy tối đa 5 danh mục khớp trực tiếp từ DB
+        List<CategoryDto> categories = categoryRepository.searchCategoriesByName(keyword, PageRequest.of(0, 5));
 
         return AutocompleteDto.builder()
                 .products(products)
